@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RiAsterisk, RiGoogleFill, RiGithubFill, RiTwitterFill } from 'react-icons/ri';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAuthContexts from '../../../hooks/useAuthContexts';
 import AOS from 'aos';
 
@@ -9,13 +9,13 @@ const LoginForm = () => {
 	const { loginWithEmail, signInWithGoogle, signInWithTwitter, signInWithGithub, resetPasswordWithEmail, user } = useAuthContexts();
 	const { register, handleSubmit, formState: { errors } } = useForm();
 	const location = useLocation();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const [enteredLoginEmail, setEnteredLoginEmail] = useState('');
 
 	// login form submit
 	const onSubmit = data => {
 		// console.log(data);
-		loginWithEmail(data.loginEmail, data.loginPassword, location, history);
+		loginWithEmail(data.loginEmail, data.loginPassword, location, navigate);
 	};
 
 	// initialize aos plugin
@@ -102,7 +102,7 @@ const LoginForm = () => {
 
 			<div className="direct-sign-in-options space-y-4">
 				<button
-					onClick={() => signInWithGoogle(location, history)}
+					onClick={() => signInWithGoogle(location, navigate)}
 					className="btn-social-login bg-my-google"
 					data-aos="fade-up"
 					data-aos-delay="100"
@@ -114,7 +114,7 @@ const LoginForm = () => {
 					<span className="flex-auto">Login with Google</span>
 				</button>
 				<button
-					onClick={() => signInWithGithub(location, history)}
+					onClick={() => signInWithGithub(location, navigate)}
 					className="btn-social-login bg-my-github"
 					data-aos="fade-up"
 					data-aos-delay="200"
@@ -126,7 +126,7 @@ const LoginForm = () => {
 					<span className="flex-auto">Login with GitHub</span>
 				</button>
 				<button
-					onClick={() => signInWithTwitter(location, history)}
+					onClick={() => signInWithTwitter(location, navigate)}
 					className="btn-social-login bg-my-twitter"
 					data-aos="fade-up"
 					data-aos-delay="300"
@@ -138,7 +138,7 @@ const LoginForm = () => {
 					<span className="flex-auto">Login with Twitter</span>
 				</button>
 				{/* <button 
-					onClick={() => signInWithFacebook(location, history)}
+					onClick={() => signInWithFacebook(location, navigate)}
 					className="btn-social-login bg-my-facebook"
 				>
 					<span className="flex-shrink-0 h-full w-12 flex items-center justify-center border-r border-true-gray-400">

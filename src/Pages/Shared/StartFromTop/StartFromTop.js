@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-const StartFromTop = ({ history }) => {
-	useEffect(() => {
-		const unlisten = history.listen(() => {
-			window.scroll(0, 0);
-		});
-		return () => unlisten();
-	}, []);
-	return null;
+const StartFromTop = (props) => {
+	const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  return <>{props.children}</>
 };
 
-export default withRouter(StartFromTop);
+export default StartFromTop;

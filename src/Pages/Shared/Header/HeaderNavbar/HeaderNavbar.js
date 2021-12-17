@@ -9,16 +9,14 @@ import { RiLock2Line } from 'react-icons/ri';
 const HeaderNavbar = () => {
 	const { user, logOut } = useAuthContexts();
 
-	// nav link active style
-	const navLinkActiveStyle = {
-		color: 'var(--clr-primary-dark)'
-	}
+	// link active style
+	const linkActiveStyle = linkState => linkState.isActive ? 'text-my-primary-dark uppercase font-semibold text-base text-my-dark-gray hover:text-my-primary' : 'uppercase font-semibold text-base text-my-dark-gray hover:text-my-primary'; 
 
 	return (
 		<header id="header_main" className="navbar">
 			<div className="container flex justify-between relative">
 				<div className="logo-wrapper flex-shrink-0 w-28 md:w-36">
-					<Link to="/home">
+					<Link to="/">
 						<img src={logo} alt="Elite Carz logo" className="w-full" />
 					</Link>
 				</div>
@@ -26,8 +24,7 @@ const HeaderNavbar = () => {
 					{!user.email ? (
 						<NavLink
 							to="/login"
-							activeStyle={navLinkActiveStyle}
-							className="uppercase font-semibold text-base text-my-dark-gray hover:text-my-primary"
+							className={linkActiveStyle}
 						>
 							<RiLock2Line className="mx-auto text-my-primary" />
 							Login

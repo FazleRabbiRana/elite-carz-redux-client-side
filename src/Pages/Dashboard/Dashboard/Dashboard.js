@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink, useRouteMatch, Switch, Route } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import Footer from '../../Shared/Footer/Footer';
 import logo from '../../../logo.svg';
 import useAuthContexts from '../../../hooks/useAuthContexts';
@@ -15,32 +15,16 @@ import {
 	RiHome8Fill,
 	RiLogoutBoxLine,
 } from 'react-icons/ri';
-import MyOrders from '../MyOrders/MyOrders';
-import AddReview from '../AddReview/AddReview';
-import Pay from '../Pay/Pay';
-import ManageAllOrders from '../ManageAllOrders/ManageAllOrders';
-import ManageProducts from '../ManageProducts/ManageProducts';
-import AddProduct from '../AddProduct/AddProduct';
-import MakeAdmin from '../MakeAdmin/MakeAdmin';
-import AdminRoute from '../../Login/AdminRoute/AdminRoute';
-import DashboardHome from '../DashboardHome/DashboardHome';
 
 const Dashboard = () => {
 	const { user, isAdmin, logOut } = useAuthContexts();
-	let { path, url } = useRouteMatch();
-
-	// dashboard nav link active style
-	const linkActiveStyle = {
-		background: 'var(--clr-primary)',
-		color: 'white',
-	};
 
 	return (
 		<>
 			<header className="dashboard-header navbar static">
 				<div className="px-4 w-full flex items-center justify-between">
 					<div className="logo-wrapper flex-shrink-0 w-28 md:w-36">
-						<Link to="/home">
+						<Link to="/">
 							<img src={logo} alt="Elite Carz logo" className="w-full" />
 						</Link>
 					</div>
@@ -54,9 +38,8 @@ const Dashboard = () => {
 					<ul className="dashboard-menu flex flex-col -mt-2">
 						<li className="border-b">
 							<NavLink
-								to="/home"
+								to="/"
 								title="Home"
-								activeStyle={linkActiveStyle}
 								className="dashboard-menu-link"
 							>
 								<span className="text-2xl">
@@ -67,10 +50,8 @@ const Dashboard = () => {
 						</li>
 						<li>
 							<NavLink
-								exact
-								to={`${url}`}
+								to="home"
 								title="Dashboard home"
-								activeStyle={linkActiveStyle}
 								className="dashboard-menu-link"
 							>
 								<span className="text-2xl">
@@ -83,10 +64,8 @@ const Dashboard = () => {
 							<>
 								<li className="border-t">
 									<NavLink
-										exact
-										to={`${url}/my-orders`}
+										to="my-orders"
 										title="My orders"
-										activeStyle={linkActiveStyle}
 										className="dashboard-menu-link"
 									>
 										<span className="text-2xl">
@@ -97,9 +76,8 @@ const Dashboard = () => {
 								</li>
 								<li className="border-t">
 									<NavLink
-										to={`${url}/add-review`}
+										to="add-review"
 										title="Review"
-										activeStyle={linkActiveStyle}
 										className="dashboard-menu-link"
 									>
 										<span className="text-2xl">
@@ -110,9 +88,8 @@ const Dashboard = () => {
 								</li>
 								<li className="border-t">
 									<NavLink
-										to={`${url}/pay`}
+										to="pay"
 										title="Pay"
-										activeStyle={linkActiveStyle}
 										className="dashboard-menu-link"
 									>
 										<span className="text-2xl">
@@ -127,9 +104,8 @@ const Dashboard = () => {
 							<>
 								<li className="border-t">
 									<NavLink
-										to={`${url}/manage-all-orders`}
+										to="manage-all-orders"
 										title="Manage all orders"
-										activeStyle={linkActiveStyle}
 										className="dashboard-menu-link"
 									>
 										<span className="text-2xl">
@@ -142,9 +118,8 @@ const Dashboard = () => {
 								</li>
 								<li className="border-t">
 									<NavLink
-										to={`${url}/manage-products`}
+										to="manage-products"
 										title="Manage products"
-										activeStyle={linkActiveStyle}
 										className="dashboard-menu-link"
 									>
 										<span className="text-2xl">
@@ -157,9 +132,8 @@ const Dashboard = () => {
 								</li>
 								<li className="border-t">
 									<NavLink
-										to={`${url}/add-product`}
+										to="add-product"
 										title="Add a product"
-										activeStyle={linkActiveStyle}
 										className="dashboard-menu-link"
 									>
 										<span className="text-2xl">
@@ -170,9 +144,8 @@ const Dashboard = () => {
 								</li>
 								<li className="border-t">
 									<NavLink
-										to={`${url}/make-admin`}
+										to="make-admin"
 										title="Make admin"
-										activeStyle={linkActiveStyle}
 										className="dashboard-menu-link"
 									>
 										<span className="text-2xl">
@@ -199,40 +172,7 @@ const Dashboard = () => {
 				</div>
 				<div className="dashboard-content flex-grow bg-white shadow-my-around py-4 lg:py-8 px-2 lg:px-4 xl:px-6">
 					<div className="lg:container m-0 lg:m-0 p-0 lg:p-0">
-						<Switch>
-							<Route exact path={`${path}`}>
-								<DashboardHome />
-							</Route>
-							{!isAdmin && (
-								<>
-									<Route exact path={`${path}/my-orders`}>
-										<MyOrders />
-									</Route>
-									<Route path={`${path}/add-review`}>
-										<AddReview />
-									</Route>
-									<Route path={`${path}/pay`}>
-										<Pay />
-									</Route>
-								</>
-							)}
-							{isAdmin && (
-								<>
-									<AdminRoute path={`${path}/manage-all-orders`}>
-										<ManageAllOrders />
-									</AdminRoute>
-									<AdminRoute path={`${path}/manage-products`}>
-										<ManageProducts />
-									</AdminRoute>
-									<AdminRoute path={`${path}/add-product`}>
-										<AddProduct />
-									</AdminRoute>
-									<AdminRoute path={`${path}/make-admin`}>
-										<MakeAdmin />
-									</AdminRoute>
-								</>
-							)}
-						</Switch>
+						<Outlet />
 					</div>
 				</div>
 			</div>

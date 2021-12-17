@@ -109,7 +109,7 @@ const PrivacyPolicy = () => {
 										target="_blank"
 										className="text-blue-600"
 									>
-										https://elite-carz.web.app/
+										https://elite-carz-redux.web.app/
 									</a>
 								</p>
 							</li>
@@ -468,7 +468,7 @@ const PrivacyPolicy = () => {
 								<p className="mt-2">
 									By visiting this page on our website:{' '}
 									<Link to="/contact" className="text-blue-600">
-										https://elite-carz.web.app/contact
+										https://elite-carz-redux.web.app/contact
 									</Link>
 								</p>
 							</li>

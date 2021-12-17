@@ -59,7 +59,7 @@ const useFirebase = () => {
 	};
 
 	// register user with email and password
-	const registerWithEmail = (name, email, password, location, history) => {
+	const registerWithEmail = (name, email, password, location, navigate) => {
 		setIsLoading(true);
 		createUserWithEmailAndPassword(auth, email, password)
 			.then(result => {
@@ -82,8 +82,8 @@ const useFirebase = () => {
 				const popupMessage = `With <span class="font-semibold">${email}</span>`;
 				showPopupMessage('success', popupTitle, popupMessage);
 				// return to prev page
-				const redirect_url = location?.state?.from || '/dashboard';
-				history.replace(redirect_url);
+				const redirect_url = location?.state?.from || '/dashboard/home';
+				navigate(redirect_url);
 			})
 			.catch(error => {
 				const errorText = processAuthErrorMessage(error);
@@ -95,7 +95,7 @@ const useFirebase = () => {
 	};
 
 	// login user using email and password
-	const loginWithEmail = (email, password, location, history) => {
+	const loginWithEmail = (email, password, location, navigate) => {
 		setIsLoading(true);
 		signInWithEmailAndPassword(auth, email, password)
 			.then(result => {
@@ -106,8 +106,8 @@ const useFirebase = () => {
 				const popupMessage = `With <span class="font-semibold">${result.user.email}</span>`;
 				showPopupMessage('success', popupTitle, popupMessage);
 				// return to prev page
-				const redirect_url = location?.state?.from || '/dashboard';
-				history.replace(redirect_url);
+				const redirect_url = location?.state?.from || '/dashboard/home';
+				navigate(redirect_url);
 			})
 			.catch(error => {
 				const errorText = processAuthErrorMessage(error);
@@ -138,7 +138,7 @@ const useFirebase = () => {
 	};
 
 	// sign in with social account
-	const signInWithSocial = (provider, location, history) => {
+	const signInWithSocial = (provider, location, navigate) => {
 		setIsLoading(true);
 		signInWithPopup(auth, provider)
 			.then(result => {
@@ -148,8 +148,8 @@ const useFirebase = () => {
 				// update user to database
 				saveUserToDatabase(user.email, user.displayName, 'PUT');
 				// return to prev page
-				const redirect_url = location?.state?.from || '/dashboard';
-				history.replace(redirect_url);
+				const redirect_url = location?.state?.from || '/dashboard/home';
+				navigate(redirect_url);
 			})
 			.catch(error => {
 				console.log(error);
@@ -162,23 +162,23 @@ const useFirebase = () => {
 	}
 
 	// sign in with google
-	const signInWithGoogle = (location, history) => {
-		signInWithSocial(googleProvider, location, history);
+	const signInWithGoogle = (location, navigate) => {
+		signInWithSocial(googleProvider, location, navigate);
 	};
 
 	// sign in with github
-	const signInWithGithub = (location, history) => {
-		signInWithSocial(githubProvider, location, history);
+	const signInWithGithub = (location, navigate) => {
+		signInWithSocial(githubProvider, location, navigate);
 	};
 
 	// sign in with twitter
-	const signInWithTwitter = (location, history) => {
-		signInWithSocial(twitterProvider, location, history);
+	const signInWithTwitter = (location, navigate) => {
+		signInWithSocial(twitterProvider, location, navigate);
 	};
 
 	// sign in with facebook
-	const signInWithFacebook = (location, history) => {
-		signInWithSocial(facebookProvider, location, history);
+	const signInWithFacebook = (location, navigate) => {
+		signInWithSocial(facebookProvider, location, navigate);
 	};
 
 	// observe user auth state
@@ -211,7 +211,7 @@ const useFirebase = () => {
 	// save user to database
 	const saveUserToDatabase = (email, displayName, method) => {
 		const user = { email, displayName };
-		const url = `https://sheltered-caverns-44637.herokuapp.com/users`;
+		const url = `http://localhost:5000/users`;
 		axios({
 			method: method,
 			url: url,
@@ -231,7 +231,7 @@ const useFirebase = () => {
 
 	// check is admin
 	useEffect(() => {
-		const url = `https://sheltered-caverns-44637.herokuapp.com/users/${user?.email}`;
+		const url = `http://localhost:5000/users/${user?.email}`;
 		axios
 			.get(url)
 			.then(res => {

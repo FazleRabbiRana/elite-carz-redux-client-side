@@ -12,7 +12,7 @@ const NotFound = () => {
 		<>
 			<header className="navbar bg-opacity-75 px-4">
 				<div className="logo-wrapper w-28 md:w-36 mx-auto">
-					<Link to="/home">
+					<Link to="/">
 						<img src={logo} alt="Elite Carz logo" className="w-full" />
 					</Link>
 				</div>
@@ -30,7 +30,7 @@ const NotFound = () => {
 						<h2 className="text-my-primary uppercase text-4xl lg:text-5xl animate-myMoveUp">Page Not Found</h2>
 						<div className="mt-10">
 							<Link 
-								to="/home" 
+								to="/" 
 								className="btn-regular text-sm py-2 animate-myMoveUp"
 								style={{animationDelay: '0.3s'}}
 							>

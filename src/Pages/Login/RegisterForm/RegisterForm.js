@@ -1,14 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { RiAsterisk } from 'react-icons/ri';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthContexts from '../../../hooks/useAuthContexts';
 
 const RegisterForm = () => {
 	const { user, registerWithEmail } = useAuthContexts();
 	const { register, handleSubmit, getValues, formState: { errors } } = useForm();
 	const location = useLocation();
-	const history = useHistory();
+	const navigate = useNavigate();
 
 	// register form submit
 	const onSubmit = data => {
@@ -18,7 +18,7 @@ const RegisterForm = () => {
 			data.email,
 			data.regPassword,
 			location,
-			history
+			navigate
 		);
 	};
 
