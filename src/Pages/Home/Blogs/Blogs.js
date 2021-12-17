@@ -13,7 +13,7 @@ const Blogs = () => {
 	useEffect(() => {
 		setIsBlogsLoading(true);
 		axios
-			.get('https://sheltered-caverns-44637.herokuapp.com/blogs')
+			.get('http://localhost:5000/blogs')
 			.then(res => {
 				// console.log(res.data);
 				setBlogs(res.data);

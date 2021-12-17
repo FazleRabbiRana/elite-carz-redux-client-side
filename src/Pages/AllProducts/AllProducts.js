@@ -13,7 +13,7 @@ const AllProducts = () => {
 	// load all products
 	useEffect(() => {
 		setIsLoading(true);
-		const url = `https://sheltered-caverns-44637.herokuapp.com/products`;
+		const url = `http://localhost:5000/products`;
 		axios
 			.get(url)
 			.then(res => {

@@ -12,7 +12,7 @@ const DashboardHome = () => {
 
 	// load products
 	useEffect(() => {
-		const url = `https://sheltered-caverns-44637.herokuapp.com/products`;
+		const url = `http://localhost:5000/products`;
 		axios
 			.get(url)
 			.then(res => {
@@ -24,9 +24,9 @@ const DashboardHome = () => {
 
 	// load orders
 	useEffect(() => {
-		let url = `https://sheltered-caverns-44637.herokuapp.com/orders?email=${user.email}`;
+		let url = `http://localhost:5000/orders?email=${user.email}`;
 		if (isAdmin) {
-			url = `https://sheltered-caverns-44637.herokuapp.com/orders`;
+			url = `http://localhost:5000/orders`;
 		}
 		axios
 			.get(url)
@@ -43,7 +43,7 @@ const DashboardHome = () => {
 
 	// load reviews
 	useEffect(() => {
-		const url = `https://sheltered-caverns-44637.herokuapp.com/reviews`;
+		const url = `http://localhost:5000/reviews`;
 		axios
 			.get(url)
 			.then(res => {

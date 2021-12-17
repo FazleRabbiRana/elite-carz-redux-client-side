@@ -43,7 +43,7 @@ const MyOrder = ({ order, orders, setOrders, index }) => {
 			},
 		}).then(result => {
 			if (result.isConfirmed) {
-				const url = `https://sheltered-caverns-44637.herokuapp.com/orders/${id}`;
+				const url = `http://localhost:5000/orders/${id}`;
 				axios
 					.delete(url)
 					.then(res => {

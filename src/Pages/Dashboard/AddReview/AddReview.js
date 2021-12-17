@@ -32,7 +32,7 @@ const AddReview = () => {
 		}
 		
 		axios
-			.post('https://sheltered-caverns-44637.herokuapp.com/reviews', data)
+			.post('http://localhost:5000/reviews', data)
 			.then(res => {
 				// console.log(res);
 				if (res.data.insertedId) {

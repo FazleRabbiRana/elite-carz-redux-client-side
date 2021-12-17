@@ -16,7 +16,7 @@ const ProductDetail = () => {
 
 	// load product detail with id
 	useEffect(() => {
-		const url = `https://sheltered-caverns-44637.herokuapp.com/products/${productId}`;
+		const url = `http://localhost:5000/products/${productId}`;
 		axios
 			.get(url)
 			.then(res => {

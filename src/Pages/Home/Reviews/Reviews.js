@@ -18,7 +18,7 @@ const Reviews = () => {
 	useEffect(() => {
 		setIsReviewsLoading(true);
 		axios
-			.get('https://sheltered-caverns-44637.herokuapp.com/reviews')
+			.get('http://localhost:5000/reviews')
 			.then(res => {
 				// console.log(res.data);
 				const allReviews = res.data;

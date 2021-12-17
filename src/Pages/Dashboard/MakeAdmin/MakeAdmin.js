@@ -16,7 +16,7 @@ const MakeAdmin = () => {
 	// load all users
 	useEffect(() => {
 		axios
-			.get(`https://sheltered-caverns-44637.herokuapp.com/users`)
+			.get(`http://localhost:5000/users`)
 			.then(res => {
 				setUsers(res.data);
 			})
@@ -44,7 +44,7 @@ const MakeAdmin = () => {
 		// }
 
 		// set admin role in database
-		// const url = `https://sheltered-caverns-44637.herokuapp.com/users/admin`;
+		// const url = `http://localhost:5000/users/admin`;
 		// axios
 		// 	.put(url, data)
 		// 	.then(res => {

@@ -22,7 +22,7 @@ const PlaceOrder = ({ product }) => {
 		data.status = 'Pending';
 		// console.log(data);
 		axios
-			.post('https://sheltered-caverns-44637.herokuapp.com/orders', data)
+			.post('http://localhost:5000/orders', data)
 			.then(res => {
 				if (res.data.insertedId) {
 					setOrderSuccess(true);
@@ -101,7 +101,7 @@ const PlaceOrder = ({ product }) => {
     	</form>
 			{orderSuccess && (
 				<div className="mt-4 flex flex-nowrap space-x-6 font-my-title text-true-gray-800">
-					<Link to="/dashboard" className="underline hover:text-my-primary-dark">Dashboard</Link>
+					<Link to="/dashboard/home" className="underline hover:text-my-primary-dark">Dashboard</Link>
 					<Link to="/all-products" className="underline hover:text-my-primary-dark">More Cars</Link>
 				</div>
 			)}

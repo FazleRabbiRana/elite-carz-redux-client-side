@@ -25,7 +25,7 @@ const ManageOrderItem = ({ order, orders, setOrders, index }) => {
 		// process update/change order status
 		const updatedOrder = {...order}
 		updatedOrder.status = changedStatus;
-		const url = `https://sheltered-caverns-44637.herokuapp.com/orders/${order._id}`;
+		const url = `http://localhost:5000/orders/${order._id}`;
 		axios
 			.put(url, updatedOrder)
 			.then(res => {
@@ -75,7 +75,7 @@ const ManageOrderItem = ({ order, orders, setOrders, index }) => {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				const url = `https://sheltered-caverns-44637.herokuapp.com/orders/${id}`;
+				const url = `http://localhost:5000/orders/${id}`;
 				axios
 				.delete(url)
 				.then(res => {

@@ -65,7 +65,7 @@ const ManageProduct = ({ product, products, setProducts, index }) => {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				const url = `https://sheltered-caverns-44637.herokuapp.com/products/${id}`;
+				const url = `http://localhost:5000/products/${id}`;
 				axios
 				.delete(url)
 				.then(res => {

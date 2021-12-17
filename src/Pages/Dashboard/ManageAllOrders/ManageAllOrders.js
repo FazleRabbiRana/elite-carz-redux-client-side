@@ -10,7 +10,7 @@ const ManageAllOrders = () => {
 	// load all orders by email
 	useEffect(() => {
 		setProcessing(true);
-		const url = `https://sheltered-caverns-44637.herokuapp.com/orders`;
+		const url = `http://localhost:5000/orders`;
 		axios
 			.get(url)
 			.then(res => {

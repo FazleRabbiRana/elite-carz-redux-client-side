@@ -10,7 +10,7 @@ const BlogDetail = () => {
 
 	// load blog with id
 	useEffect(() => {
-		const url = `https://sheltered-caverns-44637.herokuapp.com/blogs/${blogId}`;
+		const url = `http://localhost:5000/blogs/${blogId}`;
 		axios.get(url).then(res => {
 			console.log(res.data);
 			setBlog(res.data);

@@ -37,7 +37,7 @@ const AddProduct = () => {
 	const onSubmit = data => {
 		// console.log(data);
 		// axios
-		// 	.post('https://sheltered-caverns-44637.herokuapp.com/products', data)
+		// 	.post('http://localhost:5000/products', data)
 		// 	.then(res => {
 		// 		// console.log(res);
 		// 		if (res.data.insertedId) {
