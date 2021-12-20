@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import useAuthContexts from '../../../hooks/useAuthContexts';
 import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
 import MyOrder from '../MyOrder/MyOrder';
@@ -25,9 +26,14 @@ const MyOrders = () => {
 
 	return (
 		<section id="my_orders" className="my-orders">
-			<h3 className="uppercase font-semibold text-lg lg:text-2xl leading-none lg:leading-none mb-6">
-				My Orders <span className="text-gray-400">{orders?.length}</span>
-			</h3>
+			<div className="mb-6 flex flex-nowrap justify-between gap-4 lg:max-w-xl">
+				<h3 className="uppercase font-semibold text-lg lg:text-2xl leading-none lg:leading-none">
+					My Orders <span className="text-gray-400">{orders?.length}</span>
+				</h3>
+				<Link to="/all-products" className='font-my-title text-lg leading-none border-b border-my-primary transition hover:text-my-primary-dark'>
+					Order More
+				</Link>
+			</div>
 			{processing && <LoadingStatus />}
 			<div className="orders-wrapper flex flex-col space-y-4">
 				{

@@ -9,30 +9,24 @@ import reviewBg from '../../../images/bg/bg-7.jpg';
 import { RiArrowRightSLine, RiArrowLeftSLine, RiStarSFill } from 'react-icons/ri';
 import AOS from 'aos';
 import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchReviews } from '../../../redux/slices/reviewSlice';
 
 const Reviews = () => {
-	const [reviews, setReviews] = useState([]);
+	const dispatch = useDispatch();
+	// const [reviews, setReviews] = useState([]);
 	const [isReviewsLoading, setIsReviewsLoading] = useState(false);
 
 	// load all reviews
 	useEffect(() => {
-		setIsReviewsLoading(true);
-		axios
-			.get('http://localhost:5000/reviews')
-			.then(res => {
-				// console.log(res.data);
-				const allReviews = res.data;
-				const reversed = [...allReviews].reverse();
-				const mixedReviews = allReviews.length <= 10 ? reversed : [...reversed.slice(0, 5)].concat(allReviews.slice(0, 5).reverse());
-				// console.log(mixedReviews);
-				setReviews(mixedReviews);
-			})
-			.catch(error => console.log(error))
-			.finally(() => setIsReviewsLoading(false));
-		
 		// initialize AOS plugin
 		AOS.init();
+		
+		// load all reviews
+		dispatch(fetchReviews());
 	}, []);
+
+	const reviews = useSelector(state => state.reviews.allReviews);
 
 	// reviews slider settings
 	const settings = {

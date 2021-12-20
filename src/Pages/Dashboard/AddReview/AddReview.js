@@ -129,7 +129,6 @@ const AddReview = () => {
 								<LoadingStatus />
 							</div>
 						)}
-						{/* <input type="submit" value="Add Review" className="btn-regular" /> */}
 					</div>
 				</form>
 			</div>
