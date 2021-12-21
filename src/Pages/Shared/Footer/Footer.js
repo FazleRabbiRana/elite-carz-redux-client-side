@@ -16,7 +16,7 @@ const Footer = () => {
 						</address>
 					</div>
 					<p className="mt-4">
-						<a href="mailto:help@elite-carz.com" className="footer-link">help@elite-carz.com</a>
+						<a href="mailto:help@elite-carz.com" className="footer-link">help@elite-carz-redux.com</a>
 					</p>
 					<p className="mt-3">
 						<a href="tel:+8801700110011" className="footer-link">+880 1700 110011</a>
@@ -55,7 +55,7 @@ const Footer = () => {
 			<div className="container py-6 text-center">
 				<div className="copyright">
 					<p>
-						&#169; {currentYear} Elite Carz by <span className="text-my-secondary-light">Fazle Rabbi Rana</span>
+						&#169; {currentYear} Elite Carz by <a href='https://fullwebdev.com' target="_blank" rel='noreferrer noopener' className="text-my-secondary-light">Fazle Rabbi</a>
 					</p>
 				</div>
 			</div>

@@ -93,7 +93,7 @@ function App() {
         <ScrollUpButton
           ShowAtPosition={300}
           AnimationDuration={700}
-          ContainerClassName="w-12 h-12 bg-red-400 bg-opacity-50 text-white text-2xl flex items-center justify-center text-center fixed bottom-5 cursor-pointer duration-500 ease-in-out"
+          ContainerClassName="w-12 h-12 bg-blue-400 bg-opacity-60 text-white text-2xl flex items-center justify-center text-center fixed bottom-5 cursor-pointer duration-500 ease-in-out"
           style={{right: '-120%', opacity: 0, zIndex: 999}}
           ToggledStyle={{right: '20px', opacity: 1}}
         >

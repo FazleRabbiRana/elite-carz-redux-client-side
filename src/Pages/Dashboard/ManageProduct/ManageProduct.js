@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import AOS from 'aos';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { deleteProduct } from '../../../redux/slices/productsSlice';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';

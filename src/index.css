@@ -65,6 +65,14 @@
     @apply bg-my-primary text-white;
   }
 
+  .contact-form-input {
+    @apply w-full h-12 px-4 rounded bg-white text-black text-sm border-b border-l focus:border-my-primary focus:outline-none;
+  }
+
+  .contact-form-input[readonly] {
+    @apply bg-gray-100;
+  }
+
   .footer-text {
     @apply text-gray-300 text-my-sm leading-normal;
   }

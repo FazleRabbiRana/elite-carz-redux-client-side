@@ -3,7 +3,7 @@ import { useLocation, Navigate } from 'react-router-dom';
 import useAuthContexts from '../../../hooks/useAuthContexts';
 import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
 
-const PrivateRoute = ({ children, ...rest }) => {
+const PrivateRoute = ({ children }) => {
 	const { user, isLoading } = useAuthContexts();
 	const location = useLocation();
 	

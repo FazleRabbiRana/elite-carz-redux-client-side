@@ -3,11 +3,11 @@ import { useLocation, Navigate } from 'react-router-dom';
 import useAuthContexts from '../../../hooks/useAuthContexts';
 import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
 
-const AdminRoute = ({ children, ...rest}) => {
+const AdminRoute = ({ children }) => {
 	const { user, isAdmin, isLoading } = useAuthContexts();
 	const location = useLocation();
 	
-	if (isLoading) {
+	if (isLoading && !isAdmin) {
 		return <LoadingStatus />;
 	}
 
