@@ -1,21 +1,21 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
-import { RiCloseCircleLine } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import AOS from 'aos';
+import { deleteOrder } from '../../../redux/slices/ordersSlice';
 
 // initialize Swal (sweet alert)
 const MySwal = withReactContent(Swal);
 
-const MyOrder = ({ order, orders, setOrders, index }) => {
+const MyOrder = ({ order, myOrders, setMyOrders, index }) => {
 	const { name, image, price } = order?.orderedProduct;
-	const { status } = order;
+	const dispatch = useDispatch();
 
 	// handle remove order
 	const handleRemoveOrder = id => {
 		// return if already completed order
-		if (status.toLowerCase() === 'shipped') {
+		if (order?.status.toLowerCase() === 'shipped') {
 			MySwal.fire({
 				icon: 'warning',
 				title: `<span class="inline-block font-medium text-xl md:text-2xl tracking-normal md:tracking-normal leading-normal md:leading-normal">Can't remove.</span>`,
@@ -43,14 +43,12 @@ const MyOrder = ({ order, orders, setOrders, index }) => {
 			},
 		}).then(result => {
 			if (result.isConfirmed) {
-				const url = `http://localhost:5000/orders/${id}`;
-				axios
-					.delete(url)
+				dispatch(deleteOrder(id))
+					.unwrap()
 					.then(res => {
-						// console.log(res);
-						if (res.data.deletedCount) {
-							const remaining = orders.filter(order => order._id !== id);
-							setOrders(remaining);
+						if (res.deletedCount) {
+							const remaining = myOrders.filter(order => order._id !== id);
+							setMyOrders(remaining);
 							MySwal.fire({
 								icon: 'success',
 								title: `<span class="inline-block font-medium text-xl md:text-2xl tracking-normal md:tracking-normal leading-normal md:leading-normal">Order DELETED successfully!</span>`,
@@ -62,9 +60,7 @@ const MyOrder = ({ order, orders, setOrders, index }) => {
 							});
 						}
 					})
-					.catch(error => {
-						console.log(error);
-					});
+					.catch(err => console.log(err))
 			}
 		});
 	};
@@ -90,7 +86,7 @@ const MyOrder = ({ order, orders, setOrders, index }) => {
 				<div className="flex-grow py-1 px-2 font-my-title text-sm md:text-base">
 					<h4 className="font-normal text-base tracking-normal md:text-lg">{name}</h4>
 					<p className="sm:block">&#36;{price}</p>
-					<p className="sm:block">Status: {status}</p>
+					<p className="sm:block">Status: {order?.status}</p>
 				</div>
 			</div>
 			<div className="flex-shrink-0 flex sm:flex-col items-center sm:items-end p-2 space-x-2 sm:space-x-0 sm:space-y-3">
@@ -98,18 +94,11 @@ const MyOrder = ({ order, orders, setOrders, index }) => {
 					Pay
 				</button>
 				<button
-					onClick={() => handleRemoveOrder(order._id)}
-					className={`btn-regular py-1 px-4 w-20 bg-red-600 ${status.toLowerCase() === 'shipped' && 'opacity-40'}`}
+					onClick={() => handleRemoveOrder(order?._id)}
+					className={`btn-regular py-1 px-4 w-20 bg-red-600 ${order?.status.toLowerCase() === 'shipped' && 'opacity-40'}`}
 				>
 					Cancel
 				</button>
-				{/* <button 
-					onClick={() => handleRemoveOrder(order._id)} 
-					className={status.toLowerCase() === 'shipped' ? 'm-1 md:m-2 opacity-40' : 'm-1 md:m-2'}
-					// disabled={status.toLowerCase() === 'shipped' ? true : false}
-				>
-					<RiCloseCircleLine className="text-2xl text-red-500 hover:text-red-700" />
-				</button> */}
 			</div>
 		</div>
 	);

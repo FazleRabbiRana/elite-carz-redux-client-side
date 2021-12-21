@@ -1,18 +1,20 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import AOS from 'aos';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { deleteOrder, updateOrder } from '../../../redux/slices/ordersSlice';
 
 // initialize Swal (sweet alert)
 const MySwal = withReactContent(Swal);
 
-const ManageOrderItem = ({ order, orders, setOrders, index }) => {
+const ManageOrderItem = ({ order, allOrders, setAllOrders, index }) => {
 	const { name, image } = order?.orderedProduct;
-	const { register, handleSubmit } = useForm();
+	const dispatch = useDispatch();
 	const [success, setSuccess] = useState(false);
 	const [newStatus, setNewStatus] = useState('');
+	const { register, handleSubmit } = useForm();
 
 	// update order status
 	const onSubmit = data => {
@@ -25,11 +27,11 @@ const ManageOrderItem = ({ order, orders, setOrders, index }) => {
 		// process update/change order status
 		const updatedOrder = {...order}
 		updatedOrder.status = changedStatus;
-		const url = `http://localhost:5000/orders/${order._id}`;
-		axios
-			.put(url, updatedOrder)
+
+		dispatch(updateOrder(updatedOrder))
+			.unwrap()
 			.then(res => {
-				if (res.data.modifiedCount) {
+				if (res.modifiedCount) {
 					setSuccess(true);
 					setNewStatus(changedStatus);
 					MySwal.fire({
@@ -43,12 +45,12 @@ const ManageOrderItem = ({ order, orders, setOrders, index }) => {
 					});
 				}
 			})
-			.catch(err => console.log(err));
+			.catch(err => console.log(err))
 	};
 
 	// handle remove order
 	const handleRemoveOrder = id => {
-		if (orders.length < 3) {
+		if (allOrders.length < 3) {
 			MySwal.fire({
 				icon: 'warning',
 				title: `Not allowed!`,
@@ -75,28 +77,15 @@ const ManageOrderItem = ({ order, orders, setOrders, index }) => {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				const url = `http://localhost:5000/orders/${id}`;
-				axios
-				.delete(url)
-				.then(res => {
-					console.log(res);
-					if (res.data.deletedCount) {
-						const remaining = orders.filter(order => order._id !== id);
-						setOrders(remaining);
-						MySwal.fire({
-							icon: 'success',
-							title: `<span class="inline-block font-medium text-xl md:text-2xl tracking-normal md:tracking-normal leading-normal md:leading-normal">Order DELETED successfully!</span>`,
-							confirmButtonText: `OK`,
-							buttonsStyling: false,
-							customClass: {
-								confirmButton: 'btn-regular py-2',
-							},
-						});
-					}
-				})
-				.catch(error => {
-					console.log(error);
-				});
+				dispatch(deleteOrder(id))
+					.unwrap()
+					.then(res => {
+						if (res.deletedCount) {
+							const remaining = allOrders.filter(order => order._id !== id);
+							setAllOrders(remaining);
+						}
+					})
+					.catch(err => console.log(err))
 			}
 		});
 	};

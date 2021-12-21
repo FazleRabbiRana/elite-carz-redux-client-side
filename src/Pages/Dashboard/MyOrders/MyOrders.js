@@ -1,47 +1,44 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import useAuthContexts from '../../../hooks/useAuthContexts';
 import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
 import MyOrder from '../MyOrder/MyOrder';
+import { getOrders } from '../../../redux/slices/ordersSlice';
 
 const MyOrders = () => {
-	const [orders, setOrders] = useState([]);
-	const [processing, setProcessing] = useState(false);
+	const dispatch = useDispatch();
+	const ordersState = useSelector((state) => state.ordersState);
+	const [myOrders, setMyOrders] = useState([]);
 	const { user } = useAuthContexts();
 
 	// load all orders by email 
 	useEffect(() => {
-		setProcessing(true);
-		const url = `http://localhost:5000/orders?email=${user.email}`;
-		axios
-			.get(url)
+		dispatch(getOrders(user?.email))
 			.then(res => {
-				// console.log(res.data);
-				setOrders(res.data);
+				setMyOrders(res.payload);
 			})
 			.catch(err => console.log(err))
-			.finally(() => setProcessing(false));
-	}, [user.email]);
+	}, [dispatch, user?.email]);
 
 	return (
 		<section id="my_orders" className="my-orders">
 			<div className="mb-6 flex flex-nowrap justify-between gap-4 lg:max-w-xl">
 				<h3 className="uppercase font-semibold text-lg lg:text-2xl leading-none lg:leading-none">
-					My Orders <span className="text-gray-400">{orders?.length}</span>
+					My Orders <span className="text-gray-400">{myOrders?.length}</span>
 				</h3>
-				<Link to="/all-products" className='font-my-title text-lg leading-none border-b border-my-primary transition hover:text-my-primary-dark'>
+				<Link to="/all-products" className='font-my-title text-lg leading-none border-b-2 border-my-primary transition hover:text-my-primary-dark'>
 					Order More
 				</Link>
 			</div>
-			{processing && <LoadingStatus />}
+			{ordersState.getOrdersStatus === 'pending' && <LoadingStatus />}
 			<div className="orders-wrapper flex flex-col space-y-4">
 				{
-					orders.map((order, index) => <MyOrder 
+					myOrders.map((order, index) => <MyOrder 
 						key={order._id}
 						order={order}
-						orders={orders}
-						setOrders={setOrders}
+						myOrders={myOrders}
+						setMyOrders={setMyOrders}
 						index={index}
 					/>)
 				}

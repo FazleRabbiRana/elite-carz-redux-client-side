@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { RiAsterisk } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ordersAdd } from '../../../redux/slices/ordersSlice';
+import { addOrder } from '../../../redux/slices/ordersSlice';
 import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -15,7 +15,7 @@ const MySwal = withReactContent(Swal);
 const PlaceOrder = ({ product }) => {
 	const dispatch = useDispatch();
 	const ordersState = useSelector((state) => state.ordersState);
-
+	const [success, setSuccess] = useState(false);
 	const { user } = useAuthContexts();
 	const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
@@ -25,21 +25,24 @@ const PlaceOrder = ({ product }) => {
 		data.orderDate = new Date().toLocaleDateString();
 		data.status = 'Pending';
 		// console.log(data);
-
-		dispatch(ordersAdd(data));
-
-		if (ordersState.addOrderStatus === 'success') {
-			reset();
-			MySwal.fire({
-				icon: 'success',
-				title: `<span class="inline-block font-medium text-xl md:text-2xl tracking-normal md:tracking-normal leading-normal md:leading-normal">Order PLACED successfully!</span>`,
-				confirmButtonText: `OK`,
-				buttonsStyling: false,
-				customClass: {
-					confirmButton: 'btn-regular py-2',
-				},
+		
+		dispatch(addOrder(data))
+			.unwrap()
+			.then(res => {
+				if (res.insertedId) {
+					setSuccess(true);
+					reset();
+					MySwal.fire({
+						icon: 'success',
+						title: `<span class="inline-block font-medium text-xl md:text-2xl tracking-normal md:tracking-normal leading-normal md:leading-normal">Order PLACED successfully!</span>`,
+						confirmButtonText: `OK`,
+						buttonsStyling: false,
+						customClass: {
+							confirmButton: 'btn-regular py-2',
+						},
+					});
+				}
 			});
-		}
 	};
 
 	return (
@@ -98,7 +101,7 @@ const PlaceOrder = ({ product }) => {
 					)}
 				</div>
 			</form>
-			{ordersState.addOrderStatus === 'success' && (
+			{success && (
 				<div className="mt-4 flex flex-nowrap space-x-6 font-my-title text-true-gray-800">
 					<Link to="/dashboard/home" className="underline hover:text-my-primary-dark">
 						Dashboard
