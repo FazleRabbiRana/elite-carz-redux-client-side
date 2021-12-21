@@ -1,28 +1,20 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import useAuthContexts from '../../hooks/useAuthContexts';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBlogs } from '../../redux/slices/blogsSlice';
 import BlogCard from '../Shared/BlogCard/BlogCard';
 import Footer from '../Shared/Footer/Footer';
 import HeaderNavbar from '../Shared/Header/HeaderNavbar/HeaderNavbar';
 import LoadingStatus from '../Shared/LoadingStatus/LoadingStatus';
 
 const AllBlogs = () => {
-	const [blogs, setBlogs] = useState([]);
-	const { isLoading, setIsLoading } = useAuthContexts();
+	const dispatch = useDispatch();
+	const blogsState = useSelector((state) => state.blogsState);
+	const { blogs } = blogsState;
 
 	// load all blogs
 	useEffect(() => {
-		axios
-			.get('http://localhost:5000/blogs')
-			.then(res => {
-				// console.log(res.data);
-				setBlogs(res.data);
-			})
-			.catch(error => {
-				console.log(error);
-			})
-			.finally(() => setIsLoading(false));
-	}, []);
+		dispatch(getBlogs());
+	}, [dispatch]);
 
 	return (
 		<>
@@ -32,7 +24,7 @@ const AllBlogs = () => {
 					<div className="text-center mb-8">
 						<h2 className="text-4xl">Our Blogs</h2>
 					</div>
-					{isLoading && <LoadingStatus />}
+					{blogsState.getBlogsStatus === 'pending' && <LoadingStatus />}
 					<div className="container">
 						<div className="blogs-wrapper grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 sm:gap-x-6 xl:gap-x-10">
 						{

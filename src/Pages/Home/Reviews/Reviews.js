@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Slider from 'react-slick';
 import maleAvatar from '../../../images/avatar-male.png';
 import femaleAvatar from '../../../images/avatar-female.png';
