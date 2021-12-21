@@ -1,5 +1,5 @@
 {
-  "name": "elite-carz-client",
+  "name": "elite-carz-redux-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

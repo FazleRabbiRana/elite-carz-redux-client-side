@@ -1,20 +1,22 @@
-# Elite Carz | Car Shop Niche React App
+# Elite Carz Redux | Car Shop Niche React-Redux App
+React-Redux version of the Elite Carz project.
 
 <p>
-	<img src="https://raw.githubusercontent.com/FazleRabbiRana/elite-carz-react-client-side/main/public/logo192.png" height="120" />
+	<img src="https://raw.githubusercontent.com/FazleRabbiRana/elite-carz-redux-client-side/main/public/logo192.png" height="120" />
 </p>
 
 This is a Niche website (single product category selling website).
 
-This project is deployed on Firebase. To visit the live website [click here](https://elite-carz.web.app/).\
+This project is deployed on Firebase. To visit the live website [click here](https://elite-carz-redux.web.app/).\
 To login as an Admin use `admin@admin.com` and `ASd@43!2` respectively for Username and Password.
 
-For the server-side repository [click here](https://github.com/FazleRabbiRana/elite-carz-react-server-side).
+For the server-side repository [click here](https://github.com/FazleRabbiRana/elite-carz-redux-server-side).
 
 ## About This Project
 
 Here is a brief about this project: 
 - Lightening fast :zap: smooth experience with ReactJS
+- Redux library used for the state management
 - Dynamic server-side hosted on Heroku
 - Interactive functional dashboard panel with API management for both admin and general user.
 - Contents, e.g. `orders`, `products`, `users` are completely manageable from the dashboard.
@@ -28,6 +30,7 @@ Here is a brief about this project:
 ### `built with`
 
 This project is built with [ReactJS](https://reactjs.org/).\
+Redux state management library used.\
 Authentication system is created with [Firebase](https://firebase.google.com/).\
 [Tailwind CSS](https://tailwindcss.com/) is used for the styles.\
 Server side is hosted on Heroku.
