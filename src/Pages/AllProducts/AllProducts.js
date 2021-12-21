@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../redux/slices/productsSlice';
 import Footer from '../Shared/Footer/Footer';
@@ -9,11 +9,17 @@ import ProductCard from '../Shared/ProductCard/ProductCard';
 const AllProducts = () => {
 	const dispatch = useDispatch();
 	const productsState = useSelector((state) => state.productsState);
-	const { products } = productsState;
+	// const { products } = productsState;
+	const [allProducts, setAllProducts] = useState([]);
 
 	// load all products
 	useEffect(() => {
 		dispatch(getProducts())
+			.unwrap()
+			.then(res => {
+				// console.log(res);
+				setAllProducts(res);
+			})
 	}, [dispatch]);
 
 	return (
@@ -27,7 +33,7 @@ const AllProducts = () => {
 					{productsState.getProductsStatus === 'pending' && <LoadingStatus />}
 					<div className="container">
 						<div className="products-wrapper grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 sm:gap-x-4 md:gap-x-6 xl:gap-x-12">
-							{products.map((product, index) => <ProductCard 
+							{allProducts.map((product, index) => <ProductCard 
 								key={product._id} 
 								product={product} 
 								index={index} 

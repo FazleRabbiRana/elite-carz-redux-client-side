@@ -38,8 +38,8 @@ This site is a Niche website (single product category selling website). So it ca
 
 ### `data`
 
-Data used from Dynamic backend server on [Heroku](http://localhost:5000/).\
-For example, here is the [blogs link](http://localhost:5000/blogs) for this project.
+Data used from Dynamic backend server on [Heroku](https://shrouded-sierra-72899.herokuapp.com/).\
+For example, here is the [blogs link](https://shrouded-sierra-72899.herokuapp.com/blogs) for this project.
 
 ### `icons`
 

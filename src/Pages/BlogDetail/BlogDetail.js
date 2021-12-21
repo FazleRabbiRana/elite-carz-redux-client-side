@@ -1,21 +1,21 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { getSingleBlog } from '../../redux/slices/blogsSlice';
 import Footer from '../Shared/Footer/Footer';
 import HeaderNavbar from '../Shared/Header/HeaderNavbar/HeaderNavbar';
 
 const BlogDetail = () => {
 	const { blogId } = useParams();
-	const [blog, setBlog] = useState({});
+	const dispatch = useDispatch();
+	const blogsState = useSelector(state => state.blogsState);
+	const { blogs } = blogsState;
+	// console.log(blogs);
 
 	// load blog with id
 	useEffect(() => {
-		const url = `http://localhost:5000/blogs/${blogId}`;
-		axios.get(url).then(res => {
-			console.log(res.data);
-			setBlog(res.data);
-		});
-	}, [blogId]);
+		dispatch(getSingleBlog(blogId))
+	}, [dispatch, blogId]);
 
 	return (
 		<>
@@ -23,8 +23,25 @@ const BlogDetail = () => {
 			<main id="blog_detail_page" className="blog-detail-page pt-16 md:pt-20">
 				<section id="blog_detail" className="blog-detail py-8 lg:py-12">
 					<div className="container">
-						Blog detail page {blogId}
-						<h2>{blog?.title}</h2>
+						<h2 className="text-3xl mb-8">{blogs?.title}</h2>
+						<div className="md:flex md:justify-between md:space-x-4 xl:space-x-8 space-y-10 md:space-y-0">
+							<div className="flex-grow-1 xl:max-w-screen-lg">
+								<div className="product-detail-info h-full">
+									<div className="image bg-gray-200 w-full md:min-h-250px" style={{aspectRatio: '16/9'}}>
+										<img src={blogs?.image} alt={blogs?.title} className="w-full h-full object-cover object-center" />
+									</div>
+									<div className="my-4">
+										<p className="text-sm leading-relaxed">{blogs?.description?.paragraph1}</p>
+										<p className="mt-4 text-sm leading-relaxed">{blogs?.description?.paragraph2}</p>
+										<p className="mt-4 text-sm leading-relaxed">{blogs?.description?.paragraph3}</p>
+									</div>
+								</div>
+							</div>
+
+							{/* <div className="flex-shrink-0 md:w-64 lg:w-80">
+								<h3 className="text-2xl">More Blogs</h3>
+							</div> */}
+						</div>
 					</div>
 				</section>
 			</main>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import BlogCard from '../../Shared/BlogCard/BlogCard';
 import blogBg from '../../../images/bg/bg-3.jpg';
 import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
@@ -8,12 +8,17 @@ import { getBlogs } from '../../../redux/slices/blogsSlice';
 const Blogs = () => {
 	const dispatch = useDispatch();
 	const blogsState = useSelector((state) => state.blogsState);
-	const { blogs } = blogsState;
-	const homeBlogs = blogs.slice(0, 3);
+	const [homeBlogs, setHomeBlogs] = useState([]);
 
 	// load all blogs
 	useEffect(() => {
-		dispatch(getBlogs());
+		dispatch(getBlogs())
+			.unwrap()
+			.then(res => {
+				// console.log(res);
+				setHomeBlogs(res.slice(0, 3));
+			})
+			.catch(err => console.log(err))
 	}, [dispatch]);
 
 	// blog section bg

@@ -7,15 +7,15 @@ const AdminRoute = ({ children }) => {
 	const { user, isAdmin, isLoading } = useAuthContexts();
 	const location = useLocation();
 	
-	if (isLoading && !isAdmin) {
+	if (isLoading) {
 		return <LoadingStatus />;
 	}
 
 	if (user.email && isAdmin) {
 		return children;
 	}
-
-	return <Navigate to="/" state={{ from: location }} />;
+	
+	return <Navigate to="/dashboard/home" state={{ from: location }} />;
 };
 
 export default AdminRoute;

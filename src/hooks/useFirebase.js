@@ -82,8 +82,8 @@ const useFirebase = () => {
 				const popupMessage = `With <span class="font-semibold">${email}</span>`;
 				showPopupMessage('success', popupTitle, popupMessage);
 				// return to prev page
-				const redirect_url = location?.state?.from || '/dashboard/home';
-				navigate(redirect_url);
+				let redirect_url = location?.state?.from?.pathname || '/dashboard/home';
+				navigate(redirect_url, { replace: true });
 			})
 			.catch(error => {
 				const errorText = processAuthErrorMessage(error);
@@ -106,8 +106,8 @@ const useFirebase = () => {
 				const popupMessage = `With <span class="font-semibold">${result.user.email}</span>`;
 				showPopupMessage('success', popupTitle, popupMessage);
 				// return to prev page
-				const redirect_url = location?.state?.from || '/dashboard/home';
-				navigate(redirect_url);
+				let redirect_url = location?.state?.from?.pathname || '/dashboard/home';
+				navigate(redirect_url, { replace: true });
 			})
 			.catch(error => {
 				const errorText = processAuthErrorMessage(error);
@@ -148,8 +148,8 @@ const useFirebase = () => {
 				// update user to database
 				saveUserToDatabase(user.email, user.displayName, 'PUT');
 				// return to prev page
-				const redirect_url = location?.state?.from || '/dashboard/home';
-				navigate(redirect_url);
+				let redirect_url = location?.state?.from?.pathname || '/dashboard/home';
+				navigate(redirect_url, { replace: true });
 			})
 			.catch(error => {
 				console.log(error);
@@ -211,7 +211,7 @@ const useFirebase = () => {
 	// save user to database
 	const saveUserToDatabase = (email, displayName, method) => {
 		const user = { email, displayName };
-		const url = `http://localhost:5000/users`;
+		const url = `https://shrouded-sierra-72899.herokuapp.com/users`;
 		axios({
 			method: method,
 			url: url,
@@ -231,7 +231,7 @@ const useFirebase = () => {
 
 	// check is admin
 	useEffect(() => {
-		const url = `http://localhost:5000/users/${user?.email}`;
+		const url = `https://shrouded-sierra-72899.herokuapp.com/users/${user?.email}`;
 		axios
 			.get(url)
 			.then(res => {

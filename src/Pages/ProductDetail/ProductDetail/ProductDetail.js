@@ -16,7 +16,7 @@ const ProductDetail = () => {
 
 	// load product detail with id
 	useEffect(() => {
-		const url = `http://localhost:5000/products/${productId}`;
+		const url = `https://shrouded-sierra-72899.herokuapp.com/products/${productId}`;
 		axios
 			.get(url)
 			.then(res => {

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseURL = 'http://localhost:5000/orders';
+const baseURL = 'https://shrouded-sierra-72899.herokuapp.com/orders';
 
 const initialState = {
 	orders: [],

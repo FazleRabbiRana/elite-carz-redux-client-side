@@ -12,7 +12,7 @@ const DashboardHome = () => {
 
 	// load products
 	useEffect(() => {
-		const url = `http://localhost:5000/products`;
+		const url = `https://shrouded-sierra-72899.herokuapp.com/products`;
 		axios
 			.get(url)
 			.then(res => {
@@ -24,9 +24,9 @@ const DashboardHome = () => {
 
 	// load orders
 	useEffect(() => {
-		let url = `http://localhost:5000/orders?email=${user.email}`;
+		let url = `https://shrouded-sierra-72899.herokuapp.com/orders?email=${user.email}`;
 		if (isAdmin) {
-			url = `http://localhost:5000/orders`;
+			url = `https://shrouded-sierra-72899.herokuapp.com/orders`;
 		}
 		axios
 			.get(url)
@@ -43,7 +43,7 @@ const DashboardHome = () => {
 
 	// load reviews
 	useEffect(() => {
-		const url = `http://localhost:5000/reviews`;
+		const url = `https://shrouded-sierra-72899.herokuapp.com/reviews`;
 		axios
 			.get(url)
 			.then(res => {

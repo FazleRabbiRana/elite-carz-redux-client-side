@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlogs } from '../../redux/slices/blogsSlice';
 import BlogCard from '../Shared/BlogCard/BlogCard';
@@ -9,11 +9,18 @@ import LoadingStatus from '../Shared/LoadingStatus/LoadingStatus';
 const AllBlogs = () => {
 	const dispatch = useDispatch();
 	const blogsState = useSelector((state) => state.blogsState);
-	const { blogs } = blogsState;
+	// const { blogs } = blogsState;
+	const [allBlogs, setAllBlogs] = useState([]);
 
 	// load all blogs
 	useEffect(() => {
-		dispatch(getBlogs());
+		dispatch(getBlogs())
+			.unwrap()
+			.then(res => {
+				// console.log(res);
+				setAllBlogs(res);
+			})
+			.catch(err => console.log(err))
 	}, [dispatch]);
 
 	return (
@@ -28,7 +35,7 @@ const AllBlogs = () => {
 					<div className="container">
 						<div className="blogs-wrapper grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 sm:gap-x-6 xl:gap-x-10">
 						{
-							blogs.map((blog, index) => <BlogCard key={blog._id} blog={blog} index={index} />)
+							allBlogs.map((blog, index) => <BlogCard key={blog._id} blog={blog} index={index} />)
 						}
 						</div>
 					</div>

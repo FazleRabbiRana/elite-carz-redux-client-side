@@ -15,6 +15,7 @@ const ManageProducts = () => {
 	useEffect(() => {
 		dispatch(getProducts())
 			.then(res => {
+				// console.log(res);
 				setAllProducts(res.payload);
 			})
 			.catch(err => console.log(err))

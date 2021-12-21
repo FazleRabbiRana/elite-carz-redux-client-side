@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../../redux/slices/productsSlice';
 import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
@@ -7,12 +7,15 @@ import ProductCard from '../../Shared/ProductCard/ProductCard';
 const Products = () => { 
 	const dispatch = useDispatch();
 	const productsState = useSelector((state) => state.productsState);
-	const { products } = productsState;
-	const homeProducts = products.slice(0, 6);
+	// const { products } = productsState;
+	const [homeProducts, setHomeProducts] = useState([]);
 
 	// load all products
 	useEffect(() => {
 		dispatch(getProducts())
+			.unwrap()
+			.then(res => setHomeProducts(res.slice(0, 6)))
+			.catch(err => console.log(err))
 	}, [dispatch]);
 
 	return (

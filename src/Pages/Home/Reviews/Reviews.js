@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
 import maleAvatar from '../../../images/avatar-male.png';
 import femaleAvatar from '../../../images/avatar-female.png';
@@ -14,15 +14,18 @@ import AOS from 'aos';
 const Reviews = () => {
 	const dispatch = useDispatch();
 	const reviewsState = useSelector((state) => state.reviewsState);
-	const { reviews } = reviewsState;
+	// const { reviews } = reviewsState;
+	const [homeReviews, setHomeReviews] = useState([]);
 
-	// load all reviews
 	useEffect(() => {
 		// initialize AOS plugin
 		AOS.init();
-		
+
 		// load all reviews
 		dispatch(getReviews())
+			.unwrap()
+			.then(res => setHomeReviews(res))
+			.catch(err => console.log(err))
 	}, [dispatch]);
 
 	// reviews slider settings
@@ -104,7 +107,7 @@ const Reviews = () => {
 							ref={slider}
 							className="home-reviews-slider pb-24"
 						>
-							{reviews.map(review => (
+							{homeReviews.map(review => (
 								<div key={review._id} className="single-slide">
 									<img 
 										src={review?.userImg ? review?.userImg : setAvatarImg(review?.gender)} 
