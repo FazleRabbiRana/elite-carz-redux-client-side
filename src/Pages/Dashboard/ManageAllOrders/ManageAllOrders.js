@@ -32,15 +32,6 @@ const ManageAllOrders = () => {
 						index={index}
 					/>)
 				}
-				{/* {
-					allOrders.map((order, index) => <div 
-						key={order._id}
-						order={order}
-						allOrders={allOrders}
-						setAllOrders={setAllOrders}
-						index={index}
-					>Order: {index}</div>)
-				} */}
 			</div>
 		</section>
 	);

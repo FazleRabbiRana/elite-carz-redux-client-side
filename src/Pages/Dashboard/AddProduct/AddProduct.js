@@ -1,7 +1,8 @@
-import axios from 'axios';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { RiAsterisk } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../../../redux/slices/productsSlice';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -9,6 +10,8 @@ import withReactContent from 'sweetalert2-react-content';
 const MySwal = withReactContent(Swal);
 
 const AddProduct = () => {
+	const dispatch = useDispatch();
+
 	// product default values
 	const defaultValues = {
 		name: 'Cayman 718',
@@ -36,35 +39,34 @@ const AddProduct = () => {
 
 	const onSubmit = data => {
 		// console.log(data);
-		// axios
-		// 	.post('http://localhost:5000/products', data)
-		// 	.then(res => {
-		// 		// console.log(res);
-		// 		if (res.data.insertedId) {
-		// 			reset();
-		// 			MySwal.fire({
-		// 				icon: 'success',
-		// 				title: `<span class="inline-block font-medium text-xl md:text-2xl tracking-normal md:tracking-normal leading-normal md:leading-normal">Product ADDED successfully!</span>`,
-		// 				confirmButtonText: `OK`,
-		// 				buttonsStyling: false,
-		// 				customClass: {
-		// 					confirmButton: 'btn-regular py-2',
-		// 				},
-		// 			});
-		// 		}
-		// 	})
-		// 	.catch(err => console.log(err));
+		dispatch(addProduct(data))
+			.unwrap()
+			.then(res => {
+				if (res.insertedId) {
+					reset();
+					MySwal.fire({
+						icon: 'success',
+						title: `<span class="inline-block font-medium text-xl md:text-2xl tracking-normal md:tracking-normal leading-normal md:leading-normal">Product ADDED successfully!</span>`,
+						confirmButtonText: `OK`,
+						buttonsStyling: false,
+						customClass: {
+							confirmButton: 'btn-regular py-2',
+						},
+					});
+				}
+			})
+			.catch(err => console.log(err))
 
-		MySwal.fire({
-			icon: 'warning',
-			title: ``,
-			html: `<span class="inline-block font-medium text-sm">For security purpose add product system is disabled currently.</span>`,
-			confirmButtonText: `OK`,
-			buttonsStyling: false,
-			customClass: {
-				confirmButton: 'btn-regular py-2',
-			},
-		});
+		// MySwal.fire({
+		// 	icon: 'warning',
+		// 	title: ``,
+		// 	html: `<span class="inline-block font-medium text-sm">For security purpose add product system is disabled currently.</span>`,
+		// 	confirmButtonText: `OK`,
+		// 	buttonsStyling: false,
+		// 	customClass: {
+		// 		confirmButton: 'btn-regular py-2',
+		// 	},
+		// });
 	};
 
 	return (
@@ -214,9 +216,9 @@ const AddProduct = () => {
 					</div>
 				</form>
 				<div className="status">
-					<p className="mt-4 text-sm text-gray-400 text-my-primary-dark">
+					{/* <p className="mt-4 text-sm text-red-400">
 						For security purpose add product system is disabled currently.{' '}
-					</p>
+					</p> */}
 					{/* <p className="mt-4 text-sm text-gray-400">
 						For more product info{' '}
 						<a

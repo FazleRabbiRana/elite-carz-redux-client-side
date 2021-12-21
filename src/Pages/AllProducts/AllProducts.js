@@ -1,30 +1,20 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import useAuthContexts from '../../hooks/useAuthContexts';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../redux/slices/productsSlice';
 import Footer from '../Shared/Footer/Footer';
 import HeaderNavbar from '../Shared/Header/HeaderNavbar/HeaderNavbar';
 import LoadingStatus from '../Shared/LoadingStatus/LoadingStatus';
 import ProductCard from '../Shared/ProductCard/ProductCard';
 
 const AllProducts = () => {
-	const [products, setProducts] = useState([]);
-	const { isLoading, setIsLoading } = useAuthContexts();
+	const dispatch = useDispatch();
+	const productsState = useSelector((state) => state.productsState);
+	const { products } = productsState;
 
 	// load all products
 	useEffect(() => {
-		setIsLoading(true);
-		const url = `http://localhost:5000/products`;
-		axios
-			.get(url)
-			.then(res => {
-				// console.log(res.data);
-				setProducts(res.data);
-			})
-			.catch(error => {
-				console.log(error);
-			})
-			.finally(() => setIsLoading(false));
-	}, []);
+		dispatch(getProducts())
+	}, [dispatch]);
 
 	return (
 		<>
@@ -34,7 +24,7 @@ const AllProducts = () => {
 					<div className="text-center mb-8">
 						<h2 className="text-4xl">Our Products</h2>
 					</div>
-					{isLoading && <LoadingStatus />}
+					{productsState.getProductsStatus === 'pending' && <LoadingStatus />}
 					<div className="container">
 						<div className="products-wrapper grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-12 sm:gap-x-4 md:gap-x-6 xl:gap-x-12">
 							{products.map((product, index) => <ProductCard 

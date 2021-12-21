@@ -1,23 +1,25 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { RiCloseCircleLine } from 'react-icons/ri';
 import AOS from 'aos';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct } from '../../../redux/slices/productsSlice';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 // initialize Swal (sweet alert)
 const MySwal = withReactContent(Swal);
 
-const ManageProduct = ({ product, products, setProducts, index }) => {
+const ManageProduct = ({ product, allProducts, setAllProducts, index }) => {
 	const { _id, name, image, price } = product;
+	const dispatch = useDispatch();
 	const [isEnoughProducts, setIsEnoughProducts] = useState(true);
 
 	// count products
 	useEffect(() => {
-		if (products.length <= 12) {
+		if (allProducts.length <= 12) {
 			setIsEnoughProducts(false);
 		}
-	}, [products.length]);
+	}, [allProducts.length]);
 
 	// handle remove product
 	const handleRemoveProduct = id => {
@@ -65,17 +67,15 @@ const ManageProduct = ({ product, products, setProducts, index }) => {
 			},
 		}).then((result) => {
 			if (result.isConfirmed) {
-				const url = `http://localhost:5000/products/${id}`;
-				axios
-				.delete(url)
-				.then(res => {
-					console.log(res);
-					if (res.data.deletedCount) {
-						const remaining = products.filter(product => product._id !== id);
-						setProducts(remaining);
-					}
-				})
-				.catch(error => console.log(error));
+				dispatch(deleteProduct(id))
+					.unwrap()
+					.then(res => {
+						if (res.deletedCount) {
+							const remaining = allProducts.filter(order => order._id !== id);
+							setAllProducts(remaining);
+						}
+					})
+					.catch(err => console.log(err))
 			}
 		});
 	};
