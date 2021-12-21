@@ -1,19 +1,20 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { RiAsterisk } from 'react-icons/ri';
 import useAuthContexts from '../../../hooks/useAuthContexts';
+import { useDispatch, useSelector } from 'react-redux';
+import { addReview } from '../../../redux/slices/reviewsSlice';
+import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
 
 // initialize Swal (sweet alert)
 const MySwal = withReactContent(Swal);
 
 const AddReview = () => {
+	const dispatch = useDispatch();
+	const reviewsState = useSelector((state) => state.reviewsState);
 	const { user } = useAuthContexts();
-	const [adding, setAdding] = useState(false);
-
 	const {
 		register,
 		handleSubmit,
@@ -24,18 +25,16 @@ const AddReview = () => {
 	// add review
 	const onSubmit = data => {
 		// console.log(data);
-		setAdding(true);
 		if (data.userImg) {
 			data.userImg = user?.photoURL ? user?.photoURL : null;
 		} else {
 			data.userImg = null;
 		}
-		
-		axios
-			.post('http://localhost:5000/reviews', data)
+
+		dispatch(addReview(data))
+			.unwrap()
 			.then(res => {
-				// console.log(res);
-				if (res.data.insertedId) {
+				if (res.insertedId) {
 					reset();
 					MySwal.fire({
 						icon: 'success',
@@ -47,9 +46,27 @@ const AddReview = () => {
 						},
 					});
 				}
-			})
-			.catch(err => console.log(err))
-			.finally(() => setAdding(false));
+			});
+		
+		// axios
+		// 	.post('http://localhost:5000/reviews', data)
+		// 	.then(res => {
+		// 		// console.log(res);
+		// 		if (res.data.insertedId) {
+		// 			reset();
+		// 			MySwal.fire({
+		// 				icon: 'success',
+		// 				title: `<span class="inline-block font-medium text-xl md:text-2xl tracking-normal md:tracking-normal leading-normal md:leading-normal">Review added successfully!</span>`,
+		// 				confirmButtonText: `OK`,
+		// 				buttonsStyling: false,
+		// 				customClass: {
+		// 					confirmButton: 'btn-regular py-2',
+		// 				},
+		// 			});
+		// 		}
+		// 	})
+		// 	.catch(err => console.log(err))
+		// 	.finally(() => setAdding(false));
 	};
 
 	// required field mark
@@ -122,13 +139,19 @@ const AddReview = () => {
 								Please fill up the form properly.
 							</p>
 						)}
-						{!adding ? (
+						{/* <input type="submit" value="Add Review" className="btn-regular" /> */}
+						{reviewsState?.addReviewStatus === 'pending' ? (
+							<LoadingStatus />
+						) : (
+							<input type="submit" value="Add Review" className="btn-regular" />
+						)}
+						{/* {!adding ? (
 							<input type="submit" value="Add Review" className="btn-regular" />
 						) : (
 							<div className="inline-block">
 								<LoadingStatus />
 							</div>
-						)}
+						)} */}
 					</div>
 				</form>
 			</div>

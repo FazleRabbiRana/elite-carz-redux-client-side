@@ -1,21 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Slider from 'react-slick';
-import axios from 'axios';
 import maleAvatar from '../../../images/avatar-male.png';
 import femaleAvatar from '../../../images/avatar-female.png';
 import unknownAvatar from '../../../images/avatar-gender-unknown.png';
 import car from '../../../images/bg/bg-4.png';
 import reviewBg from '../../../images/bg/bg-7.jpg';
 import { RiArrowRightSLine, RiArrowLeftSLine, RiStarSFill } from 'react-icons/ri';
-import AOS from 'aos';
-import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchReviews } from '../../../redux/slices/reviewSlice';
+import { getReviews } from '../../../redux/slices/reviewsSlice';
+import LoadingStatus from '../../Shared/LoadingStatus/LoadingStatus';
+import AOS from 'aos';
 
 const Reviews = () => {
 	const dispatch = useDispatch();
-	// const [reviews, setReviews] = useState([]);
-	const [isReviewsLoading, setIsReviewsLoading] = useState(false);
+	const reviewsState = useSelector((state) => state.reviewsState);
+	const { reviews } = reviewsState;
 
 	// load all reviews
 	useEffect(() => {
@@ -23,10 +22,8 @@ const Reviews = () => {
 		AOS.init();
 		
 		// load all reviews
-		dispatch(fetchReviews());
-	}, []);
-
-	const reviews = useSelector(state => state.reviews.allReviews);
+		dispatch(getReviews())
+	}, [dispatch]);
 
 	// reviews slider settings
 	const settings = {
@@ -86,7 +83,7 @@ const Reviews = () => {
 						</p>
 						<h2 className="text-my-primary text-4xl">What They Say</h2>
 					</div>
-					{isReviewsLoading && <LoadingStatus />}
+					{reviewsState.getReviewsStatus === 'pending' && <LoadingStatus />}
 					<div className="relative">
 						<div className="slick-custom-arrows z-30 absolute bottom-7 w-full flex items-center justify-center space-x-4 text-4xl">
 							<button

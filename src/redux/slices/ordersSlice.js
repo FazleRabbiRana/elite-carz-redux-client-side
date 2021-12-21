@@ -32,7 +32,6 @@ export const getOrders = createAsyncThunk(
 	'orders/getOrders',
 	async (email = '', { rejectWithValue }) => {
 		try {
-			// const response = await axios.get(baseURL + 'orders');
 			const response = await axios.get(`${baseURL}?email=${email}`);
 			return response.data;
 		} catch (error) {
